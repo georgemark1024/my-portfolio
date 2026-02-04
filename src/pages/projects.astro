@@ -1,0 +1,121 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+const projects = (await getCollection('projects')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const featuredProjects = projects.filter(p => p.data.featured);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Projects | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<style>
+			.projects-container {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+				gap: 2rem;
+				margin: 2rem 0;
+			}
+
+			.project-card {
+				border: 1px solid #e5e7eb;
+				border-radius: 8px;
+				padding: 1.5rem;
+				transition: all 0.3s ease;
+				background-color: #ffffff;
+			}
+
+			.project-card:hover {
+				border-color: #2f5ee9;
+				box-shadow: 0 4px 12px rgba(47, 94, 233, 0.1);
+				transform: translateY(-2px);
+			}
+
+			.project-title {
+				color: #111111;
+				margin: 0 0 0.5rem 0;
+				font-size: 1.25rem;
+			}
+
+			.project-category {
+				color: #2f5ee9;
+				font-size: 0.875rem;
+				font-weight: 600;
+				text-transform: uppercase;
+				margin-bottom: 0.5rem;
+			}
+
+			.project-description {
+				color: #878787;
+				margin: 1rem 0;
+				line-height: 1.6;
+			}
+
+			.project-tech {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem;
+				margin: 1rem 0;
+			}
+
+			.tech-badge {
+				background-color: #2f5ee911;
+				color: #2f5ee9;
+				padding: 0.25rem 0.75rem;
+				border-radius: 4px;
+				font-size: 0.875rem;
+				font-weight: 500;
+			}
+
+			.project-link {
+				color: #2f5ee9;
+				text-decoration: none;
+				font-weight: 600;
+				margin-top: 1rem;
+				display: inline-block;
+			}
+
+			.project-link:hover {
+				text-decoration: underline;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section>
+				<h1>Projects</h1>
+				<p>A showcase of my work and contributions across different domains.</p>
+			</section>
+
+			{projects.length > 0 ? (
+				<div class="projects-container">
+					{projects.map(project => (
+						<article class="project-card">
+							<div class="project-category">{project.data.category}</div>
+							<h2 class="project-title">{project.data.title}</h2>
+							<p class="project-description">{project.data.description}</p>
+							<div class="project-tech">
+								{project.data.technologies.map(tech => (
+									<span class="tech-badge">{tech}</span>
+								))}
+							</div>
+							{project.data.link && (
+								<a href={project.data.link} class="project-link" target="_blank" rel="noopener noreferrer">
+									View Project →
+								</a>
+							)}
+						</article>
+					))}
+				</div>
+			) : (
+				<p>No projects yet. Start adding your portfolio projects!</p>
+			)}
+		</main>
+		<Footer />
+	</body>
+</html>
