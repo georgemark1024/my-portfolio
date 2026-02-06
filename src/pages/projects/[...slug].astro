@@ -1,0 +1,219 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+
+export async function getStaticPaths() {
+	const projects = await getCollection('projects');
+	return projects.map((project) => ({
+		params: { slug: project.id },
+		props: project,
+	}));
+}
+
+type Props = CollectionEntry<'projects'>;
+
+const project = Astro.props;
+const { Content } = await render(project);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${project.data.title} | ${SITE_TITLE}`} description={project.data.description} />
+		<style>
+			.project-header {
+				margin-bottom: 3rem;
+			}
+
+			.project-meta {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 2rem;
+				margin: 2rem 0;
+				align-items: center;
+			}
+
+			.project-meta-item {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+
+			.project-meta-label {
+				font-size: 0.875rem;
+				text-transform: uppercase;
+				color: #878787;
+				font-weight: 600;
+			}
+
+			.project-meta-value {
+				color: #111111;
+				font-weight: 600;
+			}
+
+			.tech-tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem;
+			}
+
+			.tech-badge {
+				background-color: #2f5ee911;
+				color: #2f5ee9;
+				padding: 0.35rem 0.85rem;
+				border-radius: 4px;
+				font-size: 0.875rem;
+				font-weight: 500;
+			}
+
+			.project-links {
+				display: flex;
+				gap: 1rem;
+				margin: 2rem 0;
+				flex-wrap: wrap;
+			}
+
+			.btn {
+				display: inline-block;
+				padding: 0.75rem 1.5rem;
+				border-radius: 6px;
+				font-weight: 600;
+				text-decoration: none;
+				transition: all 0.3s ease;
+				border: 1px solid;
+			}
+
+			.btn-primary {
+				background-color: #2f5ee9;
+				color: white;
+				border-color: #2f5ee9;
+			}
+
+			.btn-primary:hover {
+				background-color: #1e3fa0;
+				border-color: #1e3fa0;
+			}
+
+			.btn-secondary {
+				background-color: transparent;
+				color: #2f5ee9;
+				border-color: #2f5ee9;
+			}
+
+			.btn-secondary:hover {
+				background-color: #2f5ee911;
+			}
+
+			.content {
+				margin: 3rem 0;
+				line-height: 1.8;
+			}
+
+			.content :global(h2) {
+				margin-top: 2rem;
+				margin-bottom: 1rem;
+			}
+
+			.content :global(h3) {
+				margin-top: 1.5rem;
+				margin-bottom: 0.75rem;
+			}
+
+			.content :global(p) {
+				margin-bottom: 1rem;
+			}
+
+			.content :global(ul),
+			.content :global(ol) {
+				margin: 1.5rem 0;
+				padding-left: 2rem;
+			}
+
+			.content :global(li) {
+				margin: 0.5rem 0;
+			}
+
+			.back-link {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				color: #2f5ee9;
+				text-decoration: none;
+				margin-bottom: 2rem;
+				transition: color 0.3s ease;
+			}
+
+			.back-link:hover {
+				color: #1e3fa0;
+			}
+
+			@media (max-width: 768px) {
+				.project-meta {
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 1.5rem;
+				}
+
+				.project-links {
+					flex-direction: column;
+				}
+
+				.btn {
+					width: 100%;
+					text-align: center;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<a href="/projects/" class="back-link">← Back to Projects</a>
+
+			<article class="project-header">
+				<h1>{project.data.title}</h1>
+				<p style="color: #878787; font-size: 1.1rem;">{project.data.description}</p>
+
+				<div class="project-meta">
+					<div class="project-meta-item">
+						<span class="project-meta-label">Category</span>
+						<span class="project-meta-value">{project.data.category}</span>
+					</div>
+					<div class="project-meta-item">
+						<span class="project-meta-label">Date</span>
+						<span class="project-meta-value">
+							{project.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+						</span>
+					</div>
+					<div class="project-meta-item">
+						<span class="project-meta-label">Technologies</span>
+						<div class="tech-tags">
+							{project.data.technologies.map(tech => (
+								<span class="tech-badge">{tech}</span>
+							))}
+						</div>
+					</div>
+				</div>
+
+				<div class="project-links">
+					{project.data.link && (
+						<a href={project.data.link} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+							View Live Project →
+						</a>
+					)}
+					<a href="/projects/" class="btn btn-secondary">
+						Back to Projects
+					</a>
+				</div>
+			</article>
+
+			<article class="content">
+				<Content />
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>

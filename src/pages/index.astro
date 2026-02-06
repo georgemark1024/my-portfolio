@@ -174,22 +174,22 @@ const recentPosts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.
 					<h2 class="section-title">Featured Projects</h2>
 					<div class="projects-grid">
 						{projects.map(project => (
-							<article class="project-card">
-								<h3>{project.data.title}</h3>
-								<p>{project.data.description}</p>
-								<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
-									{project.data.technologies.slice(0, 3).map(tech => (
-										<span style="background-color: #2f5ee911; color: #2f5ee9; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.875rem;">
-											{tech}
-										</span>
-									))}
-								</div>
-								{project.data.link && (
-									<a href={project.data.link} class="view-all" target="_blank" rel="noopener noreferrer">
-										View Project →
-									</a>
-								)}
-							</article>
+							<a href={`/projects/${project.id}/`} style="text-decoration: none; color: inherit;">
+								<article class="project-card">
+									<h3>{project.data.title}</h3>
+									<p>{project.data.description}</p>
+									<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+										{project.data.technologies.slice(0, 3).map(tech => (
+											<span style="background-color: #2f5ee911; color: #2f5ee9; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.875rem;">
+												{tech}
+											</span>
+										))}
+									</div>
+									<span class="view-all" style="display: inline-block;">
+										View Details →
+									</span>
+								</article>
+							</a>
 						))}
 					</div>
 					<a href="/projects" class="view-all" style="display: block; margin-top: 2rem;">View All Projects →</a>
@@ -202,9 +202,9 @@ const recentPosts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.
 					<div class="posts-list">
 						{recentPosts.map(post => (
 							<article class="post-item">
-								<h4><a href={`/blog/${post.slug}/`} style="color: #111111; text-decoration: none;">{post.data.title}</a></h4>
-								<p>{post.data.description}</p>
-								<a href={`/blog/${post.slug}/`} class="view-all">Read More →</a>
+							<h4><a href={`/blog/${post.id}/`} style="color: #111111; text-decoration: none;">{post.data.title}</a></h4>
+							<p>{post.data.description}</p>
+							<a href={`/blog/${post.id}/`} class="view-all">Read More →</a>
 							</article>
 						))}
 					</div>

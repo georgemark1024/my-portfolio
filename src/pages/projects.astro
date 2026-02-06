@@ -96,19 +96,17 @@ const featuredProjects = projects.filter(p => p.data.featured);
 				<div class="projects-container">
 					{projects.map(project => (
 						<article class="project-card">
-							<div class="project-category">{project.data.category}</div>
-							<h2 class="project-title">{project.data.title}</h2>
-							<p class="project-description">{project.data.description}</p>
-							<div class="project-tech">
-								{project.data.technologies.map(tech => (
-									<span class="tech-badge">{tech}</span>
-								))}
-							</div>
-							{project.data.link && (
-								<a href={project.data.link} class="project-link" target="_blank" rel="noopener noreferrer">
-									View Project →
-								</a>
-							)}
+							<a href={`/projects/${project.id}/`} style="text-decoration: none; color: inherit;">
+								<div class="project-category">{project.data.category}</div>
+								<h2 class="project-title">{project.data.title}</h2>
+								<p class="project-description">{project.data.description}</p>
+								<div class="project-tech">
+									{project.data.technologies.map(tech => (
+										<span class="tech-badge">{tech}</span>
+									))}
+								</div>
+								<span class="project-link">Read More →</span>
+							</a>
 						</article>
 					))}
 				</div>
