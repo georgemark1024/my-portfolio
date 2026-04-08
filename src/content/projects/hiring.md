@@ -3,7 +3,7 @@ title: "Fluid Connect"
 description: "A marketplace where people can find water delivery services"
 category: "Web Development"
 technologies: ["Django", "HTML", "CSS"]
-featured: true
+featured: false
 link: "https://github.com/georgemark1024/fluid-connect"
 date: 2025-02-04
 ---
