@@ -1,32 +1,42 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseLayout from './../layouts/BaseLayout.astro';
+import { SITE_TITLE, CONTACT_EMAIL } from '../consts';
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('February 05 2026')}
-	showBackLink={false}
+<BaseLayout
+	title={`About | ${SITE_TITLE}`}
+	description="About George Mark — Computer Science undergraduate at the University of Nairobi who enjoys building things and understanding the why behind them."
 >
-	<p>
-		Of all the 8.3 billion people existing on this mortal plane as of 2026, today you are interested in knowing more about me,
-		I am flattered. 
-	</p>
-	<p>
-		I am currently doing my Undergrad in Computer Science at the University of Nairobi. I have done everything from Math, Business, Networks, Software development and Artificial Intelligence, that's just Computer Science for you.
-	</p>
-	<p>
-		I believe I can learn anything and I enjoy building stuff, solving problems and understanding the why behind things, not just in tech. You'll find me exploring different frameworks and languages just because I can. I am currently building a personal fitness tool using FastAPI. I like Python.
-	</p> 
-	<p>
-		Outside computers, I like running, reading novels (classic fan) and watching movies, oops. 
-	</p>
-	<p>
-		That's all I am going to share. If you want to know more about me, send me and email <a href="mailto:georgemarkokumu@gmail.com">here</a>, I will see that sooner. Or you can use one of the many links to my socials but I will take some time to reply. I am a chill guy I promise.
-	</p>
-	<p>
-		-GM
-	</p>
+	<div class="prose">
+		<h1>About Me</h1>
+		<p>
+			Of all the 8.3 billion people existing on this mortal plane as of 2026, today you are
+			interested in knowing more about me, I am flattered.
+		</p>
+		<p>
+			I am currently doing my Undergrad in Computer Science at the University of Nairobi. I have
+			done everything from Math, Business, Networks, Software development and Artificial
+			Intelligence, that's just Computer Science for you.
+		</p>
+		<p>
+			I believe I can learn anything and I enjoy building stuff, solving problems and
+			understanding the why behind things, not just in tech. You'll find me exploring different
+			frameworks and languages just because I can. I am currently building a personal fitness
+			tool using FastAPI. I like Python.
+		</p>
+		<p>Outside computers, I like running, reading novels (classic fan) and watching movies, oops.</p>
+		<p>
+			That's all I am going to share. If you want to know more about me, send me an email
+			<a href={`mailto:${CONTACT_EMAIL}`}>here</a>, I will see that sooner. Or you can use one of
+			the many links to my socials but I will take some time to reply. I am a chill guy I promise.
+		</p>
+		<p>-GM</p>
+	</div>
+</BaseLayout>
 
-</Layout>
+<style>
+	.prose {
+		max-width: 760px;
+		margin: 0 auto;
+	}
+</style>

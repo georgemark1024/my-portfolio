@@ -1,64 +1,41 @@
-# Astro Starter Kit: Blog
+# georgemark.dev
 
-```sh
-npm create astro@latest -- --template blog
+Personal portfolio and blog of George Mark, built with [Astro](https://astro.build). Live at [www.georgemark.dev](https://www.georgemark.dev/).
+
+## Stack
+
+- **Astro 5** — static output, no UI framework
+- **Vanilla CSS** — semantic design tokens in `src/styles/global.css` with light/dark themes (`[data-theme]` + `prefers-color-scheme` fallback)
+- **Content collections** — projects and blog posts as markdown in `src/content/`
+- Deployed on Vercel via git push to `main`
+
+## Structure
+
+```
+src/
+├── components/     # Header, Footer, ThemeToggle, ProjectCard, PostPreview, ExperienceTimeline…
+├── content/        # projects/*.md and blog/*.md (schemas in src/content.config.ts)
+├── data/           # experience.ts and skills.ts (edit these to update homepage sections)
+├── layouts/        # BaseLayout (shared shell), BlogPost (article layout)
+├── pages/          # routes
+└── styles/         # global.css (design tokens + shared classes)
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Common tasks
 
-Features:
+| Task | How |
+| --- | --- |
+| Add a project | Create `src/content/projects/<name>.md` with frontmatter (`title`, `description`, `category`, `technologies`, `date`, optional `featured`, `link`, `image`) |
+| Add a blog post | Create `src/content/blog/<name>.md` (`title`, `description`, `pubDate`, optional `heroImage`) |
+| Update experience | Edit `src/data/experience.ts` |
+| Update skills | Edit `src/data/skills.ts` |
+| Change colors | Edit the token blocks at the top of `src/styles/global.css` |
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+## Commands
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
-
-
+| Command | Action |
+| --- | --- |
+| `npm install` | Install dependencies |
+| `npm run dev` | Start dev server at `localhost:4321` |
+| `npm run build` | Build production site to `./dist/` |
+| `npm run preview` | Preview the build locally |

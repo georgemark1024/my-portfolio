@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	project: CollectionEntry<'projects'>;
+	/** Cap the number of tech tags shown (all by default) */
+	maxTags?: number;
+}
+
+const { project, maxTags } = Astro.props;
+const tags = maxTags ? project.data.technologies.slice(0, maxTags) : project.data.technologies;
+---
+
+<a class="card project-card" href={`/projects/${project.id}/`}>
+	<article>
+		<p class="eyebrow">{project.data.category}</p>
+		<h3>{project.data.title}</h3>
+		<p class="description">{project.data.description}</p>
+		<div class="tag-row">
+			{tags.map((tech) => <span class="tag">{tech}</span>)}
+		</div>
+		<span class="view-all">View details →</span>
+	</article>
+</a>
+
+<style>
+	.project-card h3 {
+		margin: 0 0 0.5rem 0;
+		font-size: 1.25rem;
+	}
+
+	.description {
+		color: var(--text-muted);
+		margin: 0.5rem 0 1rem 0;
+		line-height: 1.6;
+	}
+
+	.tag-row {
+		margin-bottom: 1rem;
+	}
+</style>

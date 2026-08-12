@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+---
+
+<a class="card post-preview" href={`/blog/${post.id}/`}>
+	<article>
+		<p class="date muted"><FormattedDate date={post.data.pubDate} /></p>
+		<h3>{post.data.title}</h3>
+		<p class="description">{post.data.description}</p>
+		<span class="view-all">Read more →</span>
+	</article>
+</a>
+
+<style>
+	.post-preview h3 {
+		margin: 0 0 0.5rem 0;
+		font-size: 1.25rem;
+	}
+
+	.date {
+		font-size: 0.875rem;
+		margin: 0 0 0.5rem 0;
+	}
+
+	.description {
+		color: var(--text-muted);
+		margin: 0 0 1rem 0;
+	}
+</style>
