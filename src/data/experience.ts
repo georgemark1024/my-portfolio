@@ -39,8 +39,11 @@ export const experience: ExperienceEntry[] = [
 		],
 		tech: ['Django', 'Python', 'FastAPI'],
 	},
+];
+
+export const education: ExperienceEntry[] = [
 	{
-		role: 'BSc Computer Science (Undergraduate)',
+		role: 'BSc Computer Science',
 		org: 'University of Nairobi',
 		orgUrl: 'https://www.uonbi.ac.ke/',
 		start: '2023-09',

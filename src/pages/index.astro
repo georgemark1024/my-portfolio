@@ -5,7 +5,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import portrait from '../assets/portrait.jpg';
 import ProjectCard from '../components/ProjectCard.astro';
 import PostPreview from '../components/PostPreview.astro';
-import ExperienceTimeline from '../components/ExperienceTimeline.astro';
+import ExperienceTabs from '../components/ExperienceTabs.astro';
+import { experience, education } from '../data/experience';
 import { skillGroups } from '../data/skills';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
@@ -56,7 +57,12 @@ const recentPosts = (await getCollection('blog'))
 
 	<section class="reveal">
 		<h2 class="section-title">Experience</h2>
-		<ExperienceTimeline />
+		<ExperienceTabs entries={experience} prefix="xp" label="Experience" />
+	</section>
+
+	<section class="reveal">
+		<h2 class="section-title">Education</h2>
+		<ExperienceTabs entries={education} prefix="edu" label="Education" />
 	</section>
 
 	{

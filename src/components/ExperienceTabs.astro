@@ -1,0 +1,220 @@
+---
+import type { ExperienceEntry } from '../data/experience';
+
+interface Props {
+	entries: ExperienceEntry[];
+	/** Unique per instance on a page — used to build tab/panel ids */
+	prefix: string;
+	/** Accessible name for the tab list, e.g. "Experience" */
+	label: string;
+}
+
+const { entries, prefix, label } = Astro.props;
+
+function formatMonth(value?: string): string {
+	if (!value) return 'Present';
+	const [year, month] = value.split('-').map(Number);
+	return new Date(year, (month ?? 1) - 1).toLocaleDateString('en-US', {
+		month: 'short',
+		year: 'numeric',
+	});
+}
+---
+
+<div class="xp-tabs">
+	<div class="tab-list" role="tablist" aria-label={label} aria-orientation="vertical">
+		{
+			entries.map((entry, i) => (
+				<button
+					role="tab"
+					id={`${prefix}-tab-${i}`}
+					aria-controls={`${prefix}-panel-${i}`}
+					aria-selected={i === 0 ? 'true' : 'false'}
+					tabindex={i === 0 ? 0 : -1}
+					class:list={['tab', { selected: i === 0 }]}
+				>
+					{entry.org}
+				</button>
+			))
+		}
+	</div>
+	{
+		entries.map((entry, i) => (
+			<div
+				role="tabpanel"
+				id={`${prefix}-panel-${i}`}
+				aria-labelledby={`${prefix}-tab-${i}`}
+				class="panel"
+				hidden={i !== 0}
+			>
+				<h3>
+					{entry.role}
+					<span class="org">
+						·{' '}
+						{entry.orgUrl ? (
+							<a href={entry.orgUrl} target="_blank" rel="noopener noreferrer">
+								{entry.org}
+							</a>
+						) : (
+							entry.org
+						)}
+					</span>
+				</h3>
+				<p class="period muted">
+					{formatMonth(entry.start)} — {formatMonth(entry.end)}
+				</p>
+				<p class="summary">{entry.summary}</p>
+				{entry.highlights && (
+					<ul>
+						{entry.highlights.map((highlight) => (
+							<li>{highlight}</li>
+						))}
+					</ul>
+				)}
+				{entry.tech && (
+					<div class="tag-row">
+						{entry.tech.map((tech) => (
+							<span class="tag">{tech}</span>
+						))}
+					</div>
+				)}
+			</div>
+		))
+	}
+</div>
+
+<style>
+	.xp-tabs {
+		display: grid;
+		grid-template-columns: minmax(160px, 220px) 1fr;
+		gap: 1rem 2.5rem;
+		align-items: start;
+	}
+
+	.tab-list {
+		display: flex;
+		flex-direction: column;
+		grid-row: 1 / span 99; /* keep every panel in the right column */
+	}
+
+	.tab {
+		text-align: left;
+		background: none;
+		border: none;
+		border-left: 3px solid var(--border);
+		color: var(--text-muted);
+		font: inherit;
+		font-size: 0.9375rem;
+		font-weight: 500;
+		padding: 0.75rem 1rem;
+		cursor: pointer;
+		transition:
+			color 0.2s ease,
+			border-color 0.2s ease,
+			background-color 0.2s ease;
+	}
+
+	.tab:hover {
+		color: var(--accent);
+		background: var(--accent-subtle);
+	}
+
+	.tab.selected {
+		color: var(--accent);
+		font-weight: 600;
+		border-left-color: var(--accent);
+		background: var(--accent-subtle);
+	}
+
+	.panel h3 {
+		font-size: 1.125rem;
+		margin: 0 0 0.25rem 0;
+	}
+
+	.org {
+		font-weight: 500;
+		color: var(--text-muted);
+	}
+
+	.period {
+		font-size: 0.875rem;
+		margin: 0 0 0.75rem 0;
+	}
+
+	.summary {
+		margin: 0 0 0.5rem 0;
+		color: var(--text-muted);
+	}
+
+	.panel ul {
+		margin: 0.5rem 0;
+	}
+
+	.panel ul li {
+		color: var(--text-muted);
+		margin: 0.25rem 0;
+	}
+
+	.tag-row {
+		margin-top: 0.75rem;
+	}
+
+	@media (max-width: 720px) {
+		.xp-tabs {
+			display: block;
+		}
+
+		.tab-list {
+			flex-direction: row;
+			overflow-x: auto;
+			margin-bottom: 1.25rem;
+		}
+
+		.tab {
+			flex-shrink: 0;
+			border-left: none;
+			border-bottom: 3px solid var(--border);
+			padding: 0.6rem 1rem;
+		}
+
+		.tab.selected {
+			border-left: none;
+			border-bottom-color: var(--accent);
+		}
+	}
+</style>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.xp-tabs').forEach((root) => {
+		const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+		const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+
+		const select = (index: number) => {
+			tabs.forEach((tab, i) => {
+				tab.setAttribute('aria-selected', String(i === index));
+				tab.classList.toggle('selected', i === index);
+				tab.tabIndex = i === index ? 0 : -1;
+			});
+			panels.forEach((panel, i) => {
+				panel.hidden = i !== index;
+			});
+		};
+
+		tabs.forEach((tab, i) => {
+			tab.addEventListener('click', () => select(i));
+			tab.addEventListener('keydown', (e) => {
+				const step =
+					e.key === 'ArrowDown' || e.key === 'ArrowRight'
+						? 1
+						: e.key === 'ArrowUp' || e.key === 'ArrowLeft'
+							? -1
+							: 0;
+				if (!step) return;
+				e.preventDefault();
+				const next = (i + step + tabs.length) % tabs.length;
+				select(next);
+				tabs[next].focus();
+			});
+		});
+	});
+</script>
