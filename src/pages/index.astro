@@ -7,7 +7,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import PostPreview from '../components/PostPreview.astro';
 import ExperienceTimeline from '../components/ExperienceTimeline.astro';
 import { skillGroups } from '../data/skills';
-import { SITE_DESCRIPTION, SITE_TITLE, CONTACT_EMAIL, SOCIAL_LINKS } from '../consts';
+import { SITE_DESCRIPTION, SITE_TITLE, CONTACT_EMAIL } from '../consts';
 
 const projects = (await getCollection('projects'))
 	.filter((p) => p.data.featured)
@@ -96,15 +96,7 @@ const recentPosts = (await getCollection('blog'))
 		<p class="muted">
 			Have a project in mind, a question, or just want to say hi? My inbox is always open.
 		</p>
-		<div class="contact-actions">
-			<a href={`mailto:${CONTACT_EMAIL}`} class="btn btn-primary">Say hello</a>
-			<div class="contact-socials">
-				<a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-				<a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-				<a href={SOCIAL_LINKS.x} target="_blank" rel="noopener noreferrer">X</a>
-				<a href={SOCIAL_LINKS.mastodon} target="_blank" rel="noopener noreferrer">Mastodon</a>
-			</div>
-		</div>
+		<a href={`mailto:${CONTACT_EMAIL}`} class="btn btn-primary">Say hello</a>
 	</section>
 </BaseLayout>
 
@@ -188,23 +180,6 @@ const recentPosts = (await getCollection('blog'))
 
 	.contact p {
 		max-width: 540px;
-	}
-
-	.contact-actions {
-		display: flex;
-		align-items: center;
-		gap: 1.5rem;
-		flex-wrap: wrap;
-	}
-
-	.contact-socials {
-		display: flex;
-		gap: 1rem;
-		flex-wrap: wrap;
-	}
-
-	.contact-socials a {
-		font-weight: 600;
 	}
 
 	@media (max-width: 768px) {
