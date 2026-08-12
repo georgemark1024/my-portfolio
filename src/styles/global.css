@@ -17,6 +17,7 @@
 	--border: #e4e7ec;
 	--card-bg: #ffffff;
 	--shadow: 0 4px 12px rgba(16, 24, 40, 0.08);
+	--card-glow: rgba(0, 0, 0, 0.08);
 }
 
 [data-theme='dark'] {
@@ -32,6 +33,7 @@
 	--border: #262b36;
 	--card-bg: #171a21;
 	--shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+	--card-glow: rgba(255, 255, 255, 0.12);
 }
 
 /* No-JS fallback: follow the OS preference when the inline theme script
@@ -50,6 +52,7 @@
 		--border: #262b36;
 		--card-bg: #171a21;
 		--shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+		--card-glow: rgba(255, 255, 255, 0.12);
 	}
 }
 
@@ -226,6 +229,8 @@ textarea {
 
 .card {
 	display: block;
+	position: relative;
+	overflow: hidden;
 	background: var(--card-bg);
 	border: 1px solid var(--border);
 	border-radius: 10px;
@@ -236,6 +241,26 @@ textarea {
 		border-color 0.2s ease,
 		box-shadow 0.2s ease,
 		transform 0.2s ease;
+}
+
+/* Cursor-following shade, painted at (--glow-x, --glow-y) set by the
+   script in BaseLayout. Without JS it falls back to a centered shade. */
+.card::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	background: radial-gradient(
+		600px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+		var(--card-glow),
+		transparent 40%
+	);
+}
+
+.card:hover::before {
+	opacity: 1;
 }
 
 .card:hover {
@@ -378,6 +403,10 @@ html.js .reveal.visible {
 	.card:hover {
 		transition: none;
 		transform: none;
+	}
+
+	.card::before {
+		transition: none;
 	}
 }
 
