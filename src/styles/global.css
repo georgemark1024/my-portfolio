@@ -244,8 +244,15 @@ textarea {
 }
 
 /* Cursor-following shade, painted at (--glow-x, --glow-y) set by the
-   script in BaseLayout. Without JS it falls back to a centered shade. */
-.card::before {
+   script in BaseLayout. Without JS it falls back to a centered shade.
+   Add the .glow class to opt any non-card element into the effect. */
+.glow {
+	position: relative;
+	overflow: hidden;
+}
+
+.card::before,
+.glow::before {
 	content: '';
 	position: absolute;
 	inset: 0;
@@ -259,7 +266,8 @@ textarea {
 	);
 }
 
-.card:hover::before {
+.card:hover::before,
+.glow:hover::before {
 	opacity: 1;
 }
 
@@ -405,7 +413,8 @@ html.js .reveal.visible {
 		transform: none;
 	}
 
-	.card::before {
+	.card::before,
+	.glow::before {
 		transition: none;
 	}
 }

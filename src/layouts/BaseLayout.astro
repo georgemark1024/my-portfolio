@@ -36,7 +36,7 @@ const { title, description, image } = Astro.props;
 		<script>
 			// Cursor-following card shade: feed the pointer position to the
 			// .card::before radial gradient defined in global.css.
-			document.querySelectorAll<HTMLElement>('.card').forEach((card) => {
+			document.querySelectorAll<HTMLElement>('.card, .glow').forEach((card) => {
 				card.addEventListener('mousemove', (e) => {
 					const rect = card.getBoundingClientRect();
 					card.style.setProperty('--glow-x', `${e.clientX - rect.left}px`);
