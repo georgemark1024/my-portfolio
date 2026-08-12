@@ -7,7 +7,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import PostPreview from '../components/PostPreview.astro';
 import ExperienceTimeline from '../components/ExperienceTimeline.astro';
 import { skillGroups } from '../data/skills';
-import { SITE_DESCRIPTION, SITE_TITLE, CONTACT_EMAIL } from '../consts';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 const projects = (await getCollection('projects'))
 	.filter((p) => p.data.featured)
@@ -28,7 +28,7 @@ const recentPosts = (await getCollection('blog'))
 			</p>
 			<div class="cta-buttons">
 				<a href="/projects" class="btn btn-primary">View my work</a>
-				<a href="/#contact" class="btn btn-secondary">Get in touch</a>
+				<a href="/contact" class="btn btn-secondary">Get in touch</a>
 			</div>
 		</div>
 		<div class="hero-photo">
@@ -91,13 +91,6 @@ const recentPosts = (await getCollection('blog'))
 		)
 	}
 
-	<section id="contact" class="reveal contact">
-		<h2 class="section-title">Get In Touch</h2>
-		<p class="muted">
-			Have a project in mind, a question, or just want to say hi? My inbox is always open.
-		</p>
-		<a href={`mailto:${CONTACT_EMAIL}`} class="btn btn-primary">Say hello</a>
-	</section>
 </BaseLayout>
 
 <style>
@@ -176,10 +169,6 @@ const recentPosts = (await getCollection('blog'))
 		display: grid;
 		gap: 1.5rem;
 		margin-bottom: 1.5rem;
-	}
-
-	.contact p {
-		max-width: 540px;
 	}
 
 	@media (max-width: 768px) {
