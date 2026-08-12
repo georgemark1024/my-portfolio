@@ -103,6 +103,14 @@ function formatMonth(value?: string): string {
 		grid-row: 1;
 	}
 
+	/* All panels share one grid cell, so the section always reserves the
+	   tallest panel's height — switching tabs never shifts the page.
+	   Inactive panels stay in layout but invisible and inert. */
+	.panel[hidden] {
+		display: block;
+		visibility: hidden;
+	}
+
 	.tab {
 		text-align: left;
 		background: none;
@@ -167,13 +175,18 @@ function formatMonth(value?: string): string {
 
 	@media (max-width: 720px) {
 		.xp-tabs {
-			display: block;
+			grid-template-columns: 1fr;
 		}
 
 		.tab-list {
 			flex-direction: row;
 			overflow-x: auto;
 			margin-bottom: 1.25rem;
+		}
+
+		.panel {
+			grid-column: 1;
+			grid-row: 2;
 		}
 
 		.tab {
