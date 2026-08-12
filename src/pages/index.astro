@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import portrait from '../assets/portrait.jpg';
 import ProjectCard from '../components/ProjectCard.astro';
 import PostPreview from '../components/PostPreview.astro';
 import ExperienceTimeline from '../components/ExperienceTimeline.astro';
@@ -17,15 +19,20 @@ const recentPosts = (await getCollection('blog'))
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<section class="hero">
-		<p class="eyebrow">Hi, I'm</p>
-		<h1>George Mark</h1>
-		<p class="tagline">
-			I build practical web and mobile tools — currently studying Computer Science at the
-			University of Nairobi. I enjoy solving problems and understanding the why behind things.
-		</p>
-		<div class="cta-buttons">
-			<a href="/projects" class="btn btn-primary">View my work</a>
-			<a href="/#contact" class="btn btn-secondary">Get in touch</a>
+		<div class="hero-text">
+			<p class="eyebrow">Hi, I'm</p>
+			<h1>George Mark</h1>
+			<p class="tagline">
+				I build practical web and mobile tools — currently studying Computer Science at the
+				University of Nairobi. I enjoy solving problems and understanding the why behind things.
+			</p>
+			<div class="cta-buttons">
+				<a href="/projects" class="btn btn-primary">View my work</a>
+				<a href="/#contact" class="btn btn-secondary">Get in touch</a>
+			</div>
+		</div>
+		<div class="hero-photo">
+			<Image src={portrait} alt="Portrait of George Mark" width={400} height={500} loading="eager" />
 		</div>
 	</section>
 
@@ -107,8 +114,15 @@ const recentPosts = (await getCollection('blog'))
 	}
 
 	.hero {
-		padding: 4rem 0 2rem 0;
-		max-width: 720px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 3rem;
+		padding: 3rem 0 2rem 0;
+	}
+
+	.hero-text {
+		max-width: 620px;
 	}
 
 	.hero h1 {
@@ -118,6 +132,19 @@ const recentPosts = (await getCollection('blog'))
 
 	.hero .eyebrow {
 		margin-bottom: 0.25rem;
+	}
+
+	.hero-photo {
+		flex-shrink: 0;
+	}
+
+	.hero-photo :global(img) {
+		display: block;
+		width: min(340px, 100%);
+		height: auto;
+		border-radius: 16px;
+		border: 1px solid var(--border);
+		box-shadow: var(--shadow);
 	}
 
 	.tagline {
@@ -182,11 +209,18 @@ const recentPosts = (await getCollection('blog'))
 
 	@media (max-width: 768px) {
 		.hero {
+			flex-direction: column-reverse;
+			align-items: flex-start;
+			gap: 2rem;
 			padding-top: 2rem;
 		}
 
 		.hero h1 {
 			font-size: 2.25rem;
+		}
+
+		.hero-photo :global(img) {
+			width: min(280px, 100%);
 		}
 	}
 </style>
