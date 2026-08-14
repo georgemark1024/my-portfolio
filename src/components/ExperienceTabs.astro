@@ -15,8 +15,10 @@ const asHighlight = (h: string | Highlight): Highlight => (typeof h === 'string'
 
 function formatMonth(value?: string): string {
 	if (!value) return 'Present';
+	// Free-text values like "2027 (expected)" render as-is
+	if (!/^\d{4}-\d{2}$/.test(value)) return value;
 	const [year, month] = value.split('-').map(Number);
-	return new Date(year, (month ?? 1) - 1).toLocaleDateString('en-US', {
+	return new Date(year, month - 1).toLocaleDateString('en-US', {
 		month: 'short',
 		year: 'numeric',
 	});
@@ -76,6 +78,14 @@ function formatMonth(value?: string): string {
 										{' — by '}
 										<a href={highlight.attribution.url} target="_blank" rel="noopener noreferrer">
 											{highlight.attribution.name}
+										</a>
+									</>
+								)}
+								{highlight.link && (
+									<>
+										{' — '}
+										<a href={highlight.link.url} target="_blank" rel="noopener noreferrer">
+											{highlight.link.label}
 										</a>
 									</>
 								)}
