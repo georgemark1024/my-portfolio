@@ -3,7 +3,7 @@
 
 export const SITE_TITLE = 'George Mark';
 export const SITE_DESCRIPTION =
-	'George Mark — software developer building practical web and mobile tools. Projects, writing, and experiments.';
+	'George Mark — Innovator building solutions for the community. Projects, writing, and experiments.';
 export const SITE_AUTHOR = 'George Mark';
 export const CONTACT_EMAIL = 'georgemarkokumu@gmail.com';
 
