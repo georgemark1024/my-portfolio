@@ -1,3 +1,9 @@
+export interface Highlight {
+	text: string;
+	/** Credit a collaborator: their name renders as a link after the text. */
+	attribution?: { name: string; url: string };
+}
+
 export interface ExperienceEntry {
 	role: string;
 	org: string;
@@ -7,7 +13,7 @@ export interface ExperienceEntry {
 	/** "YYYY-MM"; omit for "Present" */
 	end?: string;
 	summary: string;
-	highlights?: string[];
+	highlights?: (string | Highlight)[];
 	tech?: string[];
 }
 
@@ -22,8 +28,14 @@ export const experience: ExperienceEntry[] = [
 		summary:
 			'Built the Health Service Locator — an offline-accessible health facility finder for Kenyan citizens.',
 		highlights: [
-			'TODO: replace with real details about your role on the team',
-			'Integrated Google Maps API with Africa’s Talking USSD and SMS APIs',
+			'Built a USSD backend using Node.js to manage stateful user sessions, allowing offline users to navigate multi-level menus to locate healthcare services',
+			{
+				text: 'Engineered a geolocation routing algorithm that queried the Google Maps API to return the top 5 nearest health facilities within a 10km radius',
+				attribution: {
+					name: 'Mozart Moguche',
+					url: 'https://www.linkedin.com/in/mozart-moguche-46b0712a8/',
+				},
+			},
 		],
 		tech: ['Node.js', 'USSD', 'SMS APIs'],
 	},

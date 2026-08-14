@@ -1,5 +1,5 @@
 ---
-import type { ExperienceEntry } from '../data/experience';
+import type { ExperienceEntry, Highlight } from '../data/experience';
 
 interface Props {
 	entries: ExperienceEntry[];
@@ -10,6 +10,8 @@ interface Props {
 }
 
 const { entries, prefix, label } = Astro.props;
+
+const asHighlight = (h: string | Highlight): Highlight => (typeof h === 'string' ? { text: h } : h);
 
 function formatMonth(value?: string): string {
 	if (!value) return 'Present';
@@ -66,8 +68,18 @@ function formatMonth(value?: string): string {
 				<p class="summary">{entry.summary}</p>
 				{entry.highlights && (
 					<ul>
-						{entry.highlights.map((highlight) => (
-							<li>{highlight}</li>
+						{entry.highlights.map(asHighlight).map((highlight) => (
+							<li>
+								{highlight.text}
+								{highlight.attribution && (
+									<>
+										{' — by '}
+										<a href={highlight.attribution.url} target="_blank" rel="noopener noreferrer">
+											{highlight.attribution.name}
+										</a>
+									</>
+								)}
+							</li>
 						))}
 					</ul>
 				)}
